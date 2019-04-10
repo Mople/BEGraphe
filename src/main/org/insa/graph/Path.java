@@ -100,8 +100,10 @@ public class Path {
     			}
     			//Sinon l'ajouter dans la liste pour le path
         		arc_path.add(fastest_arc);
-    			
+        		fastest_arc=null;
+        		origine =destination;
     		}
+    		
     		return new Path(graph,arc_path);
     		
     		
@@ -192,6 +194,8 @@ public class Path {
     			}
     			//Sinon l'ajouter dans la liste pour le path
         		arc_path.add(shortest_arc);
+        		shortest_arc=null;
+        		origine =destination;
     			
     		}
     		return new Path(graph,arc_path);
