@@ -3,6 +3,7 @@ package org.insa.graph;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Iterator;
 
 /**
  * <p>
@@ -30,13 +31,86 @@ public class Path {
      * @throws IllegalArgumentException If the list of nodes is not valid, i.e. two
      *         consecutive nodes in the list are not connected in the graph.
      * 
-     * @deprecated Need to be implemented.
+     * 
      */
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
-        List<Arc> arcs = new ArrayList<Arc>();
-        // TODO:
-        return new Path(graph, arcs);
+    	
+    	//Cas liste nodes vide
+    	if(nodes.size()==0) {
+    		return new Path(graph);
+    	}
+    	
+    	//Cas liste nodes contient un seul element
+    	else if (nodes.size()==1) {
+    		return new Path(graph,nodes.get(0));
+    	}
+    	
+    	//Cas liste nodes contient plusieurs elements
+    	else {
+    		
+    		//Iterator pour parcourir tous les elements de nodes
+    		Iterator<Node> iterator = nodes.iterator();
+    		Node origine = iterator.next();
+    		
+    		//Initialisation de la liste des arc les plus rapides
+    		List<Arc> arc_path= new ArrayList<Arc>();
+    		Arc fastest_arc=null;
+    		
+    		//Parcours des elements de nodes
+    		while (iterator.hasNext()) {    			
+    			List<Arc> arcS = origine.getSuccessors();
+    			Node destination = iterator.next();
+    			
+    			//Iterator pour parcourir les successeurs d'une node
+    			Iterator<Arc> Ite_arc = arcS.iterator();
+    			
+    			double time_min=0.0;
+    			
+    			//Parcours des successeur
+    			while (Ite_arc.hasNext()) {
+    				Arc element = Ite_arc.next();
+    				
+    				//Verification de la bonne destination
+    				if(element.getDestination()==destination) {
+    					
+    					//Cas ou on a deja trouve un arc 
+    					if (fastest_arc!=null) {
+    						double time_arc = element.getMinimumTravelTime();
+    						
+    						if(time_arc<time_min) {
+    							time_min=time_arc;
+    							fastest_arc=element;
+    						}
+    						
+    					}
+    					//Cas premier arc trouve
+    					else {
+    						time_min=element.getMinimumTravelTime();
+    						fastest_arc=element;
+    					}
+    					
+    					
+    				}
+    				
+    			}
+    			//Si aucun arc n'a la bonne destination
+    			if (fastest_arc==null) {
+    				throw new IllegalArgumentException("Cannot create path from invalid list of nodes");
+    			}
+    			//Sinon l'ajouter dans la liste pour le path
+        		arc_path.add(fastest_arc);
+    			
+    		}
+    		return new Path(graph,arc_path);
+    		
+    		
+    	}
+    
+        	
+        	
+        
+        
     }
 
     /**
@@ -51,13 +125,79 @@ public class Path {
      * @throws IllegalArgumentException If the list of nodes is not valid, i.e. two
      *         consecutive nodes in the list are not connected in the graph.
      * 
-     * @deprecated Need to be implemented.
+     * 
      */
     public static Path createShortestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
-        List<Arc> arcs = new ArrayList<Arc>();
-        // TODO:
-        return new Path(graph, arcs);
+    	if(nodes.size()==0) {
+    		return new Path(graph);
+    	}
+    	
+    	//Cas liste nodes contient un seul element
+    	else if (nodes.size()==1) {
+    		return new Path(graph,nodes.get(0));
+    	}
+    	
+    	//Cas liste nodes contient plusieurs elements
+    	else {
+    		
+    		//Iterator pour parcourir tous les elements de nodes
+    		Iterator<Node> iterator = nodes.iterator();
+    		Node origine = iterator.next();
+    		
+    		//Initialisation de la liste des arc les plus rapides
+    		List<Arc> arc_path= new ArrayList<Arc>();
+    		Arc shortest_arc=null;
+    		
+    		//Parcours des elements de nodes
+    		while (iterator.hasNext()) {    			
+    			List<Arc> arcS = origine.getSuccessors();
+    			Node destination = iterator.next();
+    			
+    			//Iterator pour parcourir les successeurs d'une node
+    			Iterator<Arc> Ite_arc = arcS.iterator();
+    			
+    			float dist_min=0.0f;
+    			
+    			//Parcours des successeur
+    			while (Ite_arc.hasNext()) {
+    				Arc element = Ite_arc.next();
+    				
+    				//Verification de la bonne destination
+    				if(element.getDestination()==destination) {
+    					
+    					//Cas ou on a deja trouve un arc 
+    					if (shortest_arc!=null) {
+    						float dist_arc = element.getLength();
+    						
+    						if(dist_arc<dist_min) {
+    							dist_min=dist_arc;
+    							shortest_arc=element;
+    						}
+    						
+    					}
+    					//Cas premier arc trouve
+    					else {
+    						dist_min=element.getLength();
+    						shortest_arc=element;
+    					}
+    					
+    					
+    				}
+    				
+    			}
+    			//Si aucun arc n'a la bonne destination
+    			if (shortest_arc==null) {
+    				throw new IllegalArgumentException("Cannot create path from invalid list of nodes");
+    			}
+    			//Sinon l'ajouter dans la liste pour le path
+        		arc_path.add(shortest_arc);
+    			
+    		}
+    		return new Path(graph,arc_path);
+    		
+    		
+    	}
     }
 
     /**
