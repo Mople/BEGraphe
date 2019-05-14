@@ -2,7 +2,7 @@ package org.insa.algo.shortestpath;
 
 import java.io.PrintStream;
 
-import org.insa.algo.utils.Label;
+//import org.insa.algo.utils.Label;
 import org.insa.graph.Node;
 
 public class ShortestPathTextObserver implements ShortestPathObserver {
@@ -35,8 +35,8 @@ public class ShortestPathTextObserver implements ShortestPathObserver {
 
     }
     
-    public void notifyLabel(Label label) {
+    /*public void notifyLabel(Label label) {
     	stream.println(label.toString());
-    }
+    }*/
 
 }
