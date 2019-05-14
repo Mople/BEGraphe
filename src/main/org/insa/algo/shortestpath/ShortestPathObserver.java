@@ -1,6 +1,7 @@
 package org.insa.algo.shortestpath;
 
 import org.insa.graph.Node;
+import org.insa.algo.utils.*;
 
 public interface ShortestPathObserver {
 	
@@ -33,5 +34,7 @@ public interface ShortestPathObserver {
 	 * @param node Destination.
 	 */
 	public void notifyDestinationReached(Node node);
+	
+	public void notifyLabel(Label label);
 	
 }
