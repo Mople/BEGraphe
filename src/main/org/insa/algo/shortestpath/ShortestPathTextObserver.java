@@ -2,7 +2,7 @@ package org.insa.algo.shortestpath;
 
 import java.io.PrintStream;
 
-//import org.insa.algo.utils.Label;
+import org.insa.algo.utils.Label;
 import org.insa.graph.Node;
 
 public class ShortestPathTextObserver implements ShortestPathObserver {
@@ -15,8 +15,7 @@ public class ShortestPathTextObserver implements ShortestPathObserver {
 
     @Override
     public void notifyOriginProcessed(Node node) {
-        // TODO Auto-generated method stub
-
+    	stream.println("Origin node " + node.getId() + " processed.");
     }
 
     @Override
@@ -31,12 +30,12 @@ public class ShortestPathTextObserver implements ShortestPathObserver {
 
     @Override
     public void notifyDestinationReached(Node node) {
-        // TODO Auto-generated method stub
-
+    	stream.println("Destination node " + node.getId() + " reached.");
     }
     
-    /*public void notifyLabel(Label label) {
+    @Override
+    public void notifyLabel(Label label) {
     	stream.println(label.toString());
-    }*/
+    }
 
 }

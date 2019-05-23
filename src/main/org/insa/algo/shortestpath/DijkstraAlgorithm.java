@@ -58,6 +58,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         		currentLabel.marque = true;
         		tas.remove(currentLabel);
         		notifyNodeMarked(currentLabel.getNode());
+        		notifyLabel(currentLabel); 
         		List<Arc> succ = currentLabel.getNode().getSuccessors();
         		
         		for (Arc arc : succ) {
