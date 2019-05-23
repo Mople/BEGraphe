@@ -43,6 +43,9 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         
         while (!fin && !tas.isEmpty()) {
         	Label currentLabel = tas.findMin();
+        	if (currentLabel == startLabel) {
+        		notifyOriginProcessed(currentLabel.getNode());
+        	}
         	
         	
         	
@@ -59,9 +62,12 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         		for (Arc arc : succ) {
         			if (data.isAllowed(arc)) {
         				Label succLabel = tabLabels[arc.getDestination().getId()];
+        				if (!succLabel.atteint) {
+        					notifyNodeReached(succLabel.getNode());
+        					succLabel.atteint = true;
+        				}
         			
 	        			if (!succLabel.marque) {
-	        				notifyNodeReached(succLabel.getNode());
 	        				if (succLabel.getCost() > (currentLabel.getCost() + data.getCost(arc))) {
 	        					succLabel.setcost(currentLabel.getCost()+ data.getCost(arc));
 	        					try {

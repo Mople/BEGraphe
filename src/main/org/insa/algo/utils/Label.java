@@ -10,6 +10,7 @@ public class Label implements Comparable<Label>{
 	public Node fatherNode;
 	public Arc fatherArc;
 	public boolean inTas;
+	public boolean atteint;
 	
 	public Label(Node sommet){
 		this.currentNode = sommet;
@@ -18,6 +19,7 @@ public class Label implements Comparable<Label>{
 		this.fatherNode = null;
 		this.fatherArc = null;
 		this.inTas = false;
+		this.atteint = false;
 	}
 	
 	public double getCost() {
