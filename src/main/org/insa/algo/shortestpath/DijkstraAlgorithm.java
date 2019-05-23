@@ -38,6 +38,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         Label startLabel = tabLabels[data.getOrigin().getId()];
         tas.insert(startLabel);
         startLabel.setcost(0);
+        startLabel.atteint=true;
         
         boolean fin = false;
         
