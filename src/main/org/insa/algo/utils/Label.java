@@ -48,7 +48,7 @@ public class Label implements Comparable<Label>{
 	
 		
 	public String toString() {
-		return "id : " + this.currentNode.getId() + " , marquage : " + this.marque + " , cout : " + this.cout;
+		return "Id : " + this.currentNode.getId() + " , Marquage : " + this.marque + " , Cout : " + this.cout;
 	}
 	
 	public int compareTo(Label autre) {

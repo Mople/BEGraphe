@@ -2,6 +2,7 @@ package org.insa.algo.shortestpath;
 
 import java.io.PrintStream;
 
+import org.insa.algo.utils.BinaryHeap;
 import org.insa.algo.utils.Label;
 import org.insa.graph.Node;
 
@@ -36,6 +37,11 @@ public class ShortestPathTextObserver implements ShortestPathObserver {
     @Override
     public void notifyLabel(Label label) {
     	stream.println(label.toString());
+    }
+    
+    @Override
+    public void notifySizeHeap(BinaryHeap<Label> heap) {
+    	stream.println("Heap size: "+heap.size());
     }
 
 }

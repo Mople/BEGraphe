@@ -3,6 +3,7 @@ package org.insa.algo.shortestpath;
 import org.insa.algo.AbstractAlgorithm;
 import org.insa.graph.Node;
 import org.insa.algo.utils.Label;
+import org.insa.algo.utils.BinaryHeap;
 
 public abstract class ShortestPathAlgorithm extends AbstractAlgorithm<ShortestPathObserver> {
 
@@ -76,6 +77,16 @@ public abstract class ShortestPathAlgorithm extends AbstractAlgorithm<ShortestPa
     public void notifyLabel(Label label) {
     	for (ShortestPathObserver obs: getObservers()) {
             obs.notifyLabel(label);
+        }
+    }
+    
+    /** Notify all observers about the size of the heap
+     * 
+     * @param BinaryHeap the heap to check the size
+     */
+    public void notifySizeHeap(BinaryHeap<Label> heap) {
+    	for (ShortestPathObserver obs: getObservers()) {
+            obs.notifySizeHeap(heap);
         }
     }
 }
