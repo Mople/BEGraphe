@@ -2,6 +2,7 @@ package org.insa.algo.shortestpath;
 
 import org.insa.algo.AbstractAlgorithm;
 import org.insa.graph.Node;
+import org.insa.algo.utils.Label;
 
 public abstract class ShortestPathAlgorithm extends AbstractAlgorithm<ShortestPathObserver> {
 
@@ -64,6 +65,17 @@ public abstract class ShortestPathAlgorithm extends AbstractAlgorithm<ShortestPa
     public void notifyDestinationReached(Node node) {
         for (ShortestPathObserver obs: getObservers()) {
             obs.notifyDestinationReached(node);
+        }
+    }
+    
+    /**
+     * Notify all observers about the label of the node
+     * 
+     * @param label label to print
+     */
+    public void notifyLabel(Label label) {
+    	for (ShortestPathObserver obs: getObservers()) {
+            obs.notifyLabel(label);
         }
     }
 }

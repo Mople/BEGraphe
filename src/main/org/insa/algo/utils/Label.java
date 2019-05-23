@@ -46,7 +46,6 @@ public class Label implements Comparable<Label>{
 		this.fatherArc = a;
 	}
 	
-	
 		
 	public String toString() {
 		return "id : " + this.currentNode.getId() + " , marquage : " + this.marque + " , cout : " + this.cout;

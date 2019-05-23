@@ -2,6 +2,7 @@ package org.insa.algo.shortestpath;
 
 import java.awt.Color;
 
+import org.insa.algo.utils.Label;
 import org.insa.graph.Node;
 import org.insa.graphics.drawing.Drawing;
 import org.insa.graphics.drawing.overlays.PointSetOverlay;
@@ -20,7 +21,7 @@ public class ShortestPathGraphicObserver implements ShortestPathObserver {
 
     @Override
     public void notifyOriginProcessed(Node node) {
-        // drawing.drawMarker(node.getPoint(), Color.RED);
+        drawing.drawMarker(node.getPoint(), Color.BLUE, Color.WHITE, Drawing.AlphaMode.OPAQUE);
     }
 
     @Override
@@ -35,7 +36,12 @@ public class ShortestPathGraphicObserver implements ShortestPathObserver {
 
     @Override
     public void notifyDestinationReached(Node node) {
-        // drawing.drawMarker(node.getPoint(), Color.RED);
+        drawing.drawMarker(node.getPoint(), Color.BLUE, Color.WHITE, Drawing.AlphaMode.OPAQUE);
+    }
+    
+    @Override
+    public void notifyLabel(Label label) {
+    	//do nothing
     }
 
 }
