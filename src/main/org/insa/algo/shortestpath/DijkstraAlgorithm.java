@@ -29,7 +29,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         
         
         for (int i=0; i<nbNodes ;i++) {
-        	tabLabels[i] = new Label(list_node.get(i));
+        	tabLabels[i] = newLabel(list_node.get(i),data);
         }
         
        
@@ -110,6 +110,10 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         
         
         
+    }
+    
+    protected Label newLabel(Node node, ShortestPathData data) {
+    	return new Label(node);    	
     }
 
 }

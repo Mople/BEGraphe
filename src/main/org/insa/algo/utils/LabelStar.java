@@ -16,30 +16,10 @@ public class LabelStar extends Label implements Comparable<Label> {
 		return this.estimation;
 	}
 	
-	
-	public int compareTo(LabelStar autre) {
-		int resultat;
-		double cost = this.getCost() + this.getEstimation();
-		double autreCost = autre.getCost() + autre.getEstimation();
-		if (cost<autreCost) {
-			resultat = -1;
-		}
-		else if (cost == autreCost) {
-			if( this.getEstimation()<autre.getEstimation()) {
-				resultat = -1;
-			}
-			else if (this.getEstimation() == autre.getEstimation()) {
-				resultat = 0;
-			}
-			else {
-				resultat = 1;
-			}
-		}
-		else {
-			resultat = 1;
-		}
-		return resultat;
-		
-		
+	public double getTotalCost() {
+		return this.cout+this.estimation;
 	}
+	
+	
+	
 }
