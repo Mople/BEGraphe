@@ -2,6 +2,7 @@ package org.insa.algo.shortestpath;
 
 import java.awt.Color;
 
+import org.insa.algo.utils.BinaryHeap;
 import org.insa.algo.utils.Label;
 import org.insa.graph.Node;
 import org.insa.graphics.drawing.Drawing;
@@ -41,6 +42,11 @@ public class ShortestPathGraphicObserver implements ShortestPathObserver {
     
     @Override
     public void notifyLabel(Label label) {
+    	//do nothing
+    }
+    
+    @Override
+    public void notifySizeHeap(BinaryHeap<Label> heap) {
     	//do nothing
     }
 

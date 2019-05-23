@@ -59,6 +59,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         		tas.remove(currentLabel);
         		notifyNodeMarked(currentLabel.getNode());
         		notifyLabel(currentLabel); 
+        		notifySizeHeap(tas);
         		List<Arc> succ = currentLabel.getNode().getSuccessors();
         		
         		for (Arc arc : succ) {
@@ -77,6 +78,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 	            				} catch (ElementNotFoundException e) {}
 	            				finally {
 	            					tas.insert(succLabel);
+	            					notifySizeHeap(tas); 
 	            				}
 	        					succLabel.setFatherArc(arc);
 	        					succLabel.setFatherNode(currentLabel.getNode());

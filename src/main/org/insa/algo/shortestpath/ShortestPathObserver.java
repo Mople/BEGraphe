@@ -2,6 +2,7 @@ package org.insa.algo.shortestpath;
 
 import org.insa.algo.utils.Label;
 import org.insa.graph.Node;
+import org.insa.algo.utils.BinaryHeap;
 //import org.insa.algo.utils.*;
 
 public interface ShortestPathObserver {
@@ -41,5 +42,11 @@ public interface ShortestPathObserver {
 	 * @param label to print
 	 */
 	public void notifyLabel(Label label);
+	
+	/** Notify the observer about the BinaryHeap size
+	 * 
+	 * @param BinaryHeap the heap of labels to check the size
+	 */
+	public void notifySizeHeap(BinaryHeap<Label> heap);
 	
 }
