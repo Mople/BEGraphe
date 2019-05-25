@@ -2,8 +2,11 @@ package org.insa.algo.shortestpath;
 
 import org.insa.algo.AbstractAlgorithm;
 import org.insa.graph.Node;
+import org.insa.graph.Arc;
 import org.insa.algo.utils.Label;
 import org.insa.algo.utils.BinaryHeap;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class ShortestPathAlgorithm extends AbstractAlgorithm<ShortestPathObserver> {
 
@@ -87,6 +90,27 @@ public abstract class ShortestPathAlgorithm extends AbstractAlgorithm<ShortestPa
     public void notifySizeHeap(BinaryHeap<Label> heap) {
     	for (ShortestPathObserver obs: getObservers()) {
             obs.notifySizeHeap(heap);
+        }
+    }
+    
+    /** Notify all observers about the number of iterations and number of arcs
+     * 
+     * @param int number of iterations
+     * @param ArrayList<Arc> arcs of the algorithm
+     */
+    public void notifyEnd(ArrayList<Arc> arcsAlgo, int nbIter) {
+    	for (ShortestPathObserver obs: getObservers()) {
+            obs.notifyEnd(arcsAlgo, nbIter);
+        }
+    }
+    
+    /** Notify all observers about the number of successors tested
+     * 
+     * @param List<Arc> list of successors
+     */
+    public void notifySuccessors(List<Arc> successors) {
+    	for (ShortestPathObserver obs: getObservers()) {
+            obs.notifySuccessors(successors);
         }
     }
 }

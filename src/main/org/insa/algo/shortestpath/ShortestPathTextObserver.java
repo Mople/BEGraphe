@@ -1,9 +1,12 @@
 package org.insa.algo.shortestpath;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.insa.algo.utils.BinaryHeap;
 import org.insa.algo.utils.Label;
+import org.insa.graph.Arc;
 import org.insa.graph.Node;
 
 public class ShortestPathTextObserver implements ShortestPathObserver {
@@ -36,12 +39,22 @@ public class ShortestPathTextObserver implements ShortestPathObserver {
     
     @Override
     public void notifyLabel(Label label) {
-    	stream.println(label.toString());
+    	stream.println("Label"+label.toString());
     }
     
     @Override
     public void notifySizeHeap(BinaryHeap<Label> heap) {
     	stream.println("Heap size: "+heap.size());
+    }
+    
+    @Override
+    public void notifyEnd(ArrayList<Arc> arcsAlgo, int nbIter) {
+    	stream.println("Number of arc: "+arcsAlgo.size()+", number of iterations: "+nbIter);
+    }
+    
+    @Override
+    public void notifySuccessors(List<Arc> successors) {
+    	stream.println("Number of successors: "+successors.size());
     }
 
 }

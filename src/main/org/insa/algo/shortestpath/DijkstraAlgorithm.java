@@ -20,19 +20,16 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         Graph graph = data.getGraph();
         
         
-        
-
         //Initialisation
         final int nbNodes = graph.size();
         List<Node> list_node=graph.getNodes();
         Label[] tabLabels = new Label[nbNodes];
-        
-        
+        int nbIter = 0;
+       
         for (int i=0; i<nbNodes ;i++) {
         	tabLabels[i] = newLabel(list_node.get(i),data);
         }
         
-       
         BinaryHeap<Label> tas = new BinaryHeap<Label>();
         
         Label startLabel = tabLabels[data.getOrigin().getId()];
@@ -43,12 +40,11 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         boolean fin = false;
         
         while (!fin && !tas.isEmpty()) {
+        	nbIter ++; 
         	Label currentLabel = tas.findMin();
         	if (currentLabel == startLabel) {
         		notifyOriginProcessed(currentLabel.getNode());
         	}
-        	
-        	
         	
         	if (currentLabel.getNode().getId() == data.getDestination().getId()) {
         		fin=true;
@@ -58,9 +54,10 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         		currentLabel.marque = true;
         		tas.remove(currentLabel);
         		notifyNodeMarked(currentLabel.getNode());
-        		//notifyLabel(currentLabel); 
-        		//notifySizeHeap(tas);
+        		notifyLabel(currentLabel); 
+        		notifySizeHeap(tas);
         		List<Arc> succ = currentLabel.getNode().getSuccessors();
+        		notifySuccessors(succ); 
         		
         		for (Arc arc : succ) {
         			if (data.isAllowed(arc)) {
@@ -78,10 +75,10 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 	            				} catch (ElementNotFoundException e) {}
 	            				finally {
 	            					tas.insert(succLabel);
-	            					//notifySizeHeap(tas); 
+	            					notifySizeHeap(tas); 
 	            				}
 	        					succLabel.setFatherArc(arc);
-	        					//succLabel.setFatherNode(currentLabel.getNode());
+	        					succLabel.setFatherNode(currentLabel.getNode());
 	        				}
 	        			}
         			}
@@ -104,7 +101,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         		arcPred = tabLabels[arcPred.getOrigin().getId()].getFatherArc();
         	}
         	Collections.reverse(predec);
-        	solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph,predec));
+    		notifyEnd(predec, nbIter);
+        	solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph,predec));	
         }
         return solution;
         
