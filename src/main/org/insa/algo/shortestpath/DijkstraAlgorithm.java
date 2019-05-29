@@ -94,6 +94,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         }
         
         if (fin) {
+        	
         	ArrayList<Arc>predec = new ArrayList<Arc>();
         	Arc arcPred = tabLabels[data.getDestination().getId()].getFatherArc();
         	while (arcPred != null) {
@@ -102,7 +103,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	}
         	Collections.reverse(predec);
     		notifyEnd(predec, nbIter);
-        	solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph,predec));	
+        	solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph,predec));
+        	
         }
         return solution;
         

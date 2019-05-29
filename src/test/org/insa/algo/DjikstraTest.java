@@ -5,18 +5,20 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.ArrayList;
 //import java.util.ArrayList;
 import java.util.Arrays;
-
-import org.insa.graph.Arc;
-import org.insa.graph.Graph;
-import org.insa.graph.Node;
-import org.insa.graph.RoadInformation;
+import org.insa.graph.*;
 import org.insa.graph.RoadInformation.RoadType;
+import org.insa.graph.io.BinaryGraphReader;
+import org.insa.graph.io.GraphReader;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.insa.algo.shortestpath.*; 
+import org.insa.algo.shortestpath.*;
+
+import java.io.BufferedInputStream;
 import java.io.DataInputStream;
+import java.io.FileInputStream;
 
 public class DjikstraTest {
 
@@ -29,6 +31,7 @@ public class DjikstraTest {
     // List of arcs in the graph, a2b is the arc from node A (0) to B (1).
     @SuppressWarnings("unused")
     private static Arc a2b, a2c, a2e, b2c, c2d_1, c2d_2, c2d_3, c2a, d2a, d2e, e2d;
+    
 
     
     @BeforeClass
@@ -56,6 +59,7 @@ public class DjikstraTest {
         e2d = Node.linkNodes(nodes[4], nodes[0], 10, RoadInfo, null);
         
         graph = new Graph("ID", "", Arrays.asList(nodes), null);
+        
 
     }
     
@@ -101,8 +105,49 @@ public class DjikstraTest {
     	}
     }
     @Test
-    public void testDijkstraDistance() {
+    public void testDijkstraDistance() throws Exception {
     	ArcInspector arcInspector = new ArcInspectorFactory().getAllFilters().get(0);
-    	GraphReader reader = new BinaryGraphReader (new DataInputStream(new BufferedInputStream(new FileInputStream("ici mettrecheminmap"))));
+    	String map = "/home/aldauria/Bureau/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Maps/madagascar.mapgr";
+    	GraphReader reader = new BinaryGraphReader (new DataInputStream(new BufferedInputStream(new FileInputStream(map))));
+    	Graph graph = reader.read();
+    	
+    	Node[] TabOrigine = new Node[3];
+    	TabOrigine[0]=graph.get(0);
+    	TabOrigine[1]=graph.get(0);
+    	TabOrigine[2]=graph.get(0);
+    	
+    	Node[] TabDest = new Node[3];
+    	TabDest[0]=graph.get(0);
+    	TabDest[1]=graph.get(109463);
+    	TabDest[2]=graph.get(53803);
+    	
+    	for (int i=0;i<3;i++) {
+    		arcInspector = ArcInspectorFactory.getAllFilters().get(0);
+    		ShortestPathData data = new ShortestPathData(graph, TabOrigine[i],TabDest[i], arcInspector);
+    		
+    		// get algorithms to test
+			BellmanFordAlgorithm BellmanFordAlgo = new BellmanFordAlgorithm(data);
+			DijkstraAlgorithm DijkstraAlgo = new DijkstraAlgorithm(data);
+			
+			// on va comparer les solutions obtenues avec Bellman Ford a Dijkstra
+			ShortestPathSolution DijkstraSolution = DijkstraAlgo.run();
+			ShortestPathSolution BellmanFordSolution = BellmanFordAlgo.run();;
+
+			
+			if (DijkstraSolution.getPath() == null) {
+				assertEquals(BellmanFordSolution.getPath(), DijkstraSolution.getPath());
+				System.out.println("PAS DE SOLUTION");
+				System.out.println("(infini) ");
+			}
+			// Un plus court chemin trouve 
+			else {
+				double costSolution;
+				double costExpected;
+				costSolution = DijkstraSolution.getPath().getLength();
+				costExpected = BellmanFordSolution.getPath().getLength();
+				assertEquals(costExpected, costSolution, 0.001);
+				System.out.println("Cout solution: " + costSolution);
+			}
+    	}
     }
 }
