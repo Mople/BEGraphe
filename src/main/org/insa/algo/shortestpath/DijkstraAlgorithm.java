@@ -38,6 +38,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         startLabel.atteint=true;
         
         boolean fin = false;
+        boolean pathNul = false;
         
         while (!fin && !tas.isEmpty()) {
         	nbIter ++; 
@@ -49,6 +50,9 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	if (currentLabel.getNode().getId() == data.getDestination().getId()) {
         		fin=true;
         		notifyDestinationReached(data.getDestination());
+        		if (startLabel==currentLabel) {
+        			pathNul=true;
+        		}
         	}
         	else {
         		currentLabel.marque = true;
@@ -94,16 +98,21 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         }
         
         if (fin) {
-        	
-        	ArrayList<Arc>predec = new ArrayList<Arc>();
-        	Arc arcPred = tabLabels[data.getDestination().getId()].getFatherArc();
-        	while (arcPred != null) {
-        		predec.add(arcPred);
-        		arcPred = tabLabels[arcPred.getOrigin().getId()].getFatherArc();
+        	if (pathNul) {
+        		solution =new ShortestPathSolution(data, Status.INFEASIBLE);
         	}
-        	Collections.reverse(predec);
-    		notifyEnd(predec, nbIter);
-        	solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph,predec));
+        	else {
+	        	
+	        	ArrayList<Arc>predec = new ArrayList<Arc>();
+	        	Arc arcPred = tabLabels[data.getDestination().getId()].getFatherArc();
+	        	while (arcPred != null) {
+	        		predec.add(arcPred);
+	        		arcPred = tabLabels[arcPred.getOrigin().getId()].getFatherArc();
+	        	}
+	        	Collections.reverse(predec);
+	    		notifyEnd(predec, nbIter);
+	        	solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph,predec));
+        	}
         	
         }
         return solution;
