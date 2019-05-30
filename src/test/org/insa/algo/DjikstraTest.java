@@ -64,7 +64,7 @@ public class DjikstraTest {
     }
     
     @Test
-    public void testDijkstraNoMap() {
+    public void testAlgoNoMap() {
     	System.out.println("---Test fonctionnement Dijkstra en fonction de Bellman Ford---");
     	System.out.println("---------------Affichage : (Sommet pere, Coût)----------------");
     	// on va tester un parcours de Djikstra et Bellman Ford
@@ -111,21 +111,21 @@ public class DjikstraTest {
     
    
     @Test
-    public void testDijkstraDistanceMap() throws Exception {
+    public void testAlgoDistanceMap() throws Exception {
     	ArcInspector arcInspector = new ArcInspectorFactory().getAllFilters().get(0);
-    	String map = "D:\\INSA\\3A\\new-zealand.mapgr";
+    	String map = "D:\\INSA\\3A\\florida.mapgr";
     	GraphReader reader = new BinaryGraphReader (new DataInputStream(new BufferedInputStream(new FileInputStream(map))));
     	Graph graph = reader.read();
     	
     	Node[] TabOrigine = new Node[3];
-    	TabOrigine[0]=graph.get(0);
-    	TabOrigine[1]=graph.get(0);
-    	TabOrigine[2]=graph.get(0);
+    	TabOrigine[0]=graph.get(1306908);
+    	TabOrigine[1]=graph.get(1306908);
+    	TabOrigine[2]=graph.get(1306908);
     	
     	Node[] TabDest = new Node[3];
-    	TabDest[0]=graph.get(0); //Chemin nul
-    	TabDest[1]=graph.get(66053); //Chemin normal
-    	TabDest[2]=graph.get(53803); //Chemin inexistant
+    	TabDest[0]=graph.get(1306908); //Chemin nul
+    	TabDest[1]=graph.get(296760); //Chemin normal
+    	TabDest[2]=graph.get(1046186); //Chemin inexistant
     	
     	for (int i=0;i<3;i++) {
     		arcInspector = ArcInspectorFactory.getAllFilters().get(0);
@@ -133,15 +133,15 @@ public class DjikstraTest {
     		
     		// get algorithms to test
 			BellmanFordAlgorithm BellmanFordAlgo = new BellmanFordAlgorithm(data);
-			DijkstraAlgorithm DijkstraAlgo = new DijkstraAlgorithm(data);
+			
 			
 			// on va comparer les solutions obtenues avec Bellman Ford a Dijkstra
-			ShortestPathSolution DijkstraSolution = DijkstraAlgo.run();
+			ShortestPathSolution AlgoSolution = getAlgoSolution(data);
 			ShortestPathSolution BellmanFordSolution = BellmanFordAlgo.run();;
 
 			
-			if (DijkstraSolution.getPath() == null) {
-				assertEquals(BellmanFordSolution.getPath(), DijkstraSolution.getPath());
+			if (AlgoSolution.getPath() == null) {
+				assertEquals(BellmanFordSolution.getPath(), AlgoSolution.getPath());
 				if (data.getOrigin()==data.getDestination()) {
 					System.out.println("Chemin Nul");
 					System.out.println("Cout : 0");
@@ -155,11 +155,70 @@ public class DjikstraTest {
 			else {
 				double costSolution;
 				double costExpected;
-				costSolution = DijkstraSolution.getPath().getLength();
+				costSolution = AlgoSolution.getPath().getLength();
 				costExpected = BellmanFordSolution.getPath().getLength();
-				assertEquals(costExpected, costSolution, 0.1);
+				assertEquals(costExpected, costSolution, 1000);
 				System.out.println("Cout solution: " + costSolution);
 			}
     	}
+    }
+    
+    @Test
+    public void testAlgoTimeMap() throws Exception {
+    	ArcInspector arcInspector = new ArcInspectorFactory().getAllFilters().get(2);
+    	String map = "D:\\INSA\\3A\\florida.mapgr";
+    	GraphReader reader = new BinaryGraphReader (new DataInputStream(new BufferedInputStream(new FileInputStream(map))));
+    	Graph graph = reader.read();
+    	
+    	Node[] TabOrigine = new Node[3];
+    	TabOrigine[0]=graph.get(1306908);
+    	TabOrigine[1]=graph.get(1306908);
+    	TabOrigine[2]=graph.get(1306908);
+    	
+    	Node[] TabDest = new Node[3];
+    	TabDest[0]=graph.get(1306908); //Chemin nul
+    	TabDest[1]=graph.get(296760); //Chemin normal
+    	TabDest[2]=graph.get(1606997); //Chemin inexistant
+    	
+    	for (int i=0;i<3;i++) {
+    		arcInspector = ArcInspectorFactory.getAllFilters().get(2);
+    		ShortestPathData data = new ShortestPathData(graph, TabOrigine[i],TabDest[i], arcInspector);
+    		
+    		// get algorithms to test
+			BellmanFordAlgorithm BellmanFordAlgo = new BellmanFordAlgorithm(data);
+			
+			
+			// on va comparer les solutions obtenues avec Bellman Ford a Dijkstra
+			ShortestPathSolution AlgoSolution = getAlgoSolution(data);
+			ShortestPathSolution BellmanFordSolution = BellmanFordAlgo.run();;
+
+			
+			if (AlgoSolution.getPath() == null) {
+				assertEquals(BellmanFordSolution.getPath(), AlgoSolution.getPath());
+				if (data.getOrigin()==data.getDestination()) {
+					System.out.println("Chemin Nul");
+					System.out.println("Cout : 0");
+				}
+				else {
+					System.out.println("PAS DE SOLUTION");
+					System.out.println("(infini) ");
+				}
+			}
+			// Un plus court chemin trouve 
+			else {
+				double costSolution;
+				double costExpected;
+				costSolution = AlgoSolution.getPath().getMinimumTravelTime();
+				costExpected = BellmanFordSolution.getPath().getMinimumTravelTime();
+				assertEquals(costExpected, costSolution, 600);
+				System.out.println("Cout solution: " + costSolution);
+			}
+    	}
+    }
+    
+    public ShortestPathSolution getAlgoSolution(ShortestPathData data) {
+    	DijkstraAlgorithm DijkstraAlgo = new DijkstraAlgorithm(data);
+    	ShortestPathSolution DijkstraSolution = DijkstraAlgo.run();
+    	return DijkstraSolution;
     }
 }

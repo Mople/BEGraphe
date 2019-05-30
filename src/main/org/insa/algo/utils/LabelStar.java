@@ -2,6 +2,7 @@ package org.insa.algo.utils ;
 
 import org.insa.graph.*;
 import org.insa.algo.shortestpath.*;
+import org.insa.algo.AbstractInputData;
 
 public class LabelStar extends Label implements Comparable<Label> {
 	
@@ -9,7 +10,13 @@ public class LabelStar extends Label implements Comparable<Label> {
 	
 	public LabelStar(Node sommet, ShortestPathData data){
 		super(sommet);
-		this.estimation = Point.distance(sommet.getPoint(), data.getDestination().getPoint()) ;
+		if (data.getMode() == AbstractInputData.Mode.LENGTH) {
+			this.estimation = Point.distance(sommet.getPoint(),data.getDestination().getPoint());
+		}
+		else {
+			int vitesse = Math.max(data.getMaximumSpeed(), data.getGraph().getGraphInformation().getMaximumSpeed());
+			this.estimation = Point.distance(sommet.getPoint(),data.getDestination().getPoint())/(vitesse*1000.0f/3600.0f);
+		}
 	}
 	
 	public double getEstimation() {
