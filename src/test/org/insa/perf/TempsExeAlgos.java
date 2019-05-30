@@ -18,6 +18,11 @@ public class TempsExeAlgos {
 	private int destination;
 	private float timeDijkstra;
 	private float timeAStar;
+	private int nbSommetsVisitesD;
+	private int nbSommetsVisitesA;
+	private int nbSommetsMarquesD;
+	private int nbSommetsMarquesA;
+	
 
 	public TempsExeAlgos(String mapName, int typeEvaluation, int origine, int destination) throws Exception {
 
@@ -43,6 +48,8 @@ public class TempsExeAlgos {
 		DijkstraAlgo.run();
 		endTime = System.nanoTime();
 		this.timeDijkstra = (endTime-startTime)/1000000.0f;
+		this.nbSommetsMarquesD = DijkstraAlgo.getNbMarque();
+		this.nbSommetsVisitesD = DijkstraAlgo.getNbVisite();
 
 		
 		
@@ -54,6 +61,8 @@ public class TempsExeAlgos {
 		AStarAlgo.run();
 		endTime = System.nanoTime();
 		this.timeAStar = (endTime-startTime)/1000000.0f;
+		this.nbSommetsMarquesA = AStarAlgo.getNbMarque();
+		this.nbSommetsVisitesA = AStarAlgo.getNbVisite();
 		
 	}
 	
@@ -71,6 +80,22 @@ public class TempsExeAlgos {
 	
 	public float getTempsExecutionAStar() {
 		return this.timeAStar;
+	}
+	
+	public int getMarqueD() {
+		return this.nbSommetsMarquesD;
+	}
+	
+	public int getMarqueA() {
+		return this.nbSommetsMarquesA;
+	}
+	
+	public int getVisiteD() {
+		return this.nbSommetsVisitesD;
+	}
+	
+	public int getVisiteA() {
+		return this.nbSommetsVisitesA;
 	}
 
 

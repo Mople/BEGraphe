@@ -30,24 +30,24 @@ public class PerformanceTest {
 	@Test
 	public void MakeTest() throws Exception{
 		CreateFileTestNodes("aquitaine");
-		System.out.println("fichier de test créé");
-		InfoInFile fileT = new InfoInFile("src\\test\\aquitaine_temps_100_data.txt");
-		System.out.println("info récupérées");
-		//InfoInFile fileD = new InfoInFile("src\\test\\aquitaine_distance_100_data.txt");
+		//System.out.println("fichier de test créé");
+		//InfoInFile fileT = new InfoInFile("src\\test\\aquitaine_temps_100_data.txt");
+		//System.out.println("info récupérées");
+		InfoInFile fileD = new InfoInFile("src\\test\\aquitaine_distance_100_data.txt");
 		/*System.out.println(file.getMapName());
 		System.out.println(file.getMode());
 		System.out.println(file.getNbNodes());
 		System.out.println(file.getListeOrigine().size());*/
-		ArrayList<TempsExeAlgos> resultsT = new ArrayList<TempsExeAlgos>();
-		//ArrayList<TempsExeAlgos> resultsD = new ArrayList<TempsExeAlgos>();
+		//ArrayList<TempsExeAlgos> resultsT = new ArrayList<TempsExeAlgos>();
+		ArrayList<TempsExeAlgos> resultsD = new ArrayList<TempsExeAlgos>();
 		for (int i =0; i<100;i++) {
-			resultsT.add(new TempsExeAlgos(fileT.getMapName(),fileT.getMode(),fileT.getListeOrigine().get(i),fileT.getListeDestination().get(i)));
-			//resultsD.add(new TempsExeAlgos(fileD.getMapName(),fileD.getMode(),fileD.getListeOrigine().get(i),fileD.getListeDestination().get(i)));
-			System.out.println("i"+i);
+			//resultsT.add(new TempsExeAlgos(fileT.getMapName(),fileT.getMode(),fileT.getListeOrigine().get(i),fileT.getListeDestination().get(i)));
+			resultsD.add(new TempsExeAlgos(fileD.getMapName(),fileD.getMode(),fileD.getListeOrigine().get(i),fileD.getListeDestination().get(i)));
+			
 		}
 		
-		CreateFileResults(fileT.getMapName(), fileT.getMode(), resultsT);
-		//CreateFileResults(fileD.getMapName(), fileD.getMode(), resultsD);
+		//CreateFileResults(fileT.getMapName(), fileT.getMode(), resultsT);
+		CreateFileResults(fileD.getMapName(), fileD.getMode(), resultsD);
 		
 	}
 
@@ -103,7 +103,6 @@ public class PerformanceTest {
 				 fileTime.append(String.valueOf(idAleaDest));
 				 fileTime.append(newLineSeparator);
 				 i++;
-				 System.out.println(i);
 				 
 			 }
 			 			 
@@ -118,7 +117,7 @@ public class PerformanceTest {
 	}
 
 	public void CreateFileResults(String mapName, int mode, ArrayList<TempsExeAlgos> results) throws Exception{
-		String Delimiter = " ";
+		String Delimiter = ",";
 		String newLineSeparator ="\r\n";
 		 
 		FileWriter fileResults = new FileWriter("src\\test\\"+mapName+"_mode-"+mode+"_resultats_.txt");
@@ -135,7 +134,15 @@ public class PerformanceTest {
 			fileResults.append(Delimiter);
 			fileResults.append(String.valueOf(currentResults.getTempsExecutionDijkstra()));
 			fileResults.append(Delimiter);
+			fileResults.append(String.valueOf(currentResults.getVisiteD()));
+			fileResults.append(Delimiter);
+			fileResults.append(String.valueOf(currentResults.getMarqueD()));
+			fileResults.append(Delimiter);
 			fileResults.append(String.valueOf(currentResults.getTempsExecutionAStar()));
+			fileResults.append(Delimiter);
+			fileResults.append(String.valueOf(currentResults.getVisiteA()));
+			fileResults.append(Delimiter);
+			fileResults.append(String.valueOf(currentResults.getMarqueA()));
 			fileResults.append(newLineSeparator);
 		}
 		

@@ -8,9 +8,14 @@ import org.insa.algo.AbstractSolution.Status;
 import org.insa.algo.utils.*;
 
 public class DijkstraAlgorithm extends ShortestPathAlgorithm {
+	
+	public int nbSommetVisites;
+	public int nbSommetMarques;
 
     public DijkstraAlgorithm(ShortestPathData data) {
         super(data);
+        this.nbSommetMarques=0;
+        this.nbSommetVisites=0;
     }
 
     @Override
@@ -56,6 +61,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	}
         	else {
         		currentLabel.marque = true;
+        		this.nbSommetMarques++;
         		tas.remove(currentLabel);
         		notifyNodeMarked(currentLabel.getNode());
         		notifyLabel(currentLabel); 
@@ -68,6 +74,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         				Label succLabel = tabLabels[arc.getDestination().getId()];
         				if (!succLabel.atteint) {
         					notifyNodeReached(succLabel.getNode());
+        					this.nbSommetVisites++;
         					succLabel.atteint = true;
         				}
         			
@@ -123,6 +130,14 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
     
     protected Label newLabel(Node node, ShortestPathData data) {
     	return new Label(node);    	
+    }
+    
+    public int getNbVisite() {
+    	return this.nbSommetVisites;
+    }
+    
+    public int getNbMarque() {
+    	return this.nbSommetMarques;
     }
 
 }

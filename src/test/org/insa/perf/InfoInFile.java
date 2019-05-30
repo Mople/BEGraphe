@@ -25,10 +25,6 @@ public class InfoInFile {
 	public void Read (String fileName) {
 		try {
 			Scanner scan = new Scanner(new File(fileName));
-			int origine;
-			int destination;
-			
-			boolean endHeader=false;
 			
 			map = scan.nextLine();
 			
