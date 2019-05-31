@@ -29,11 +29,11 @@ public class PerformanceTest {
 	
 	@Test
 	public void MakeTest() throws Exception{
-		CreateFileTestNodes("aquitaine");
+		CreateFileTestNodes("picardie");
 		//System.out.println("fichier de test créé");
-		//InfoInFile fileT = new InfoInFile("src\\test\\aquitaine_temps_100_data.txt");
+		//InfoInFile fileT = new InfoInFile("src\\test\\picardie_temps_100_data.txt");
 		//System.out.println("info récupérées");
-		InfoInFile fileD = new InfoInFile("src\\test\\aquitaine_distance_100_data.txt");
+		InfoInFile fileD = new InfoInFile("src\\test\\picardie_distance_100_data.txt");
 		/*System.out.println(file.getMapName());
 		System.out.println(file.getMode());
 		System.out.println(file.getNbNodes());
@@ -143,6 +143,8 @@ public class PerformanceTest {
 			fileResults.append(String.valueOf(currentResults.getVisiteA()));
 			fileResults.append(Delimiter);
 			fileResults.append(String.valueOf(currentResults.getMarqueA()));
+			fileResults.append(Delimiter);
+			fileResults.append(String.valueOf(currentResults.getDonneeComp()));
 			fileResults.append(newLineSeparator);
 		}
 		

@@ -9,6 +9,7 @@ import org.insa.algo.ArcInspectorFactory;
 import org.insa.algo.shortestpath.AStarAlgorithm;
 import org.insa.algo.shortestpath.DijkstraAlgorithm;
 import org.insa.algo.shortestpath.ShortestPathData;
+import org.insa.algo.shortestpath.ShortestPathSolution;
 import org.insa.graph.Graph;
 import org.insa.graph.io.BinaryGraphReader;
 import org.insa.graph.io.GraphReader;
@@ -22,6 +23,7 @@ public class TempsExeAlgos {
 	private int nbSommetsVisitesA;
 	private int nbSommetsMarquesD;
 	private int nbSommetsMarquesA;
+	private double donneeComp;
 	
 
 	public TempsExeAlgos(String mapName, int typeEvaluation, int origine, int destination) throws Exception {
@@ -45,12 +47,17 @@ public class TempsExeAlgos {
 
 		DijkstraAlgorithm DijkstraAlgo = new DijkstraAlgorithm(data);
 		startTime = System.nanoTime();
-		DijkstraAlgo.run();
+		ShortestPathSolution DSolution = DijkstraAlgo.run();
 		endTime = System.nanoTime();
 		this.timeDijkstra = (endTime-startTime)/1000000.0f;
 		this.nbSommetsMarquesD = DijkstraAlgo.getNbMarque();
 		this.nbSommetsVisitesD = DijkstraAlgo.getNbVisite();
-
+		if (typeEvaluation == 0) {
+			this.donneeComp = DSolution.getPath().getLength();
+		}
+		else {
+			this.donneeComp = DSolution.getPath().getMinimumTravelTime();
+		}
 		
 		
 		startTime = 0;
@@ -96,6 +103,10 @@ public class TempsExeAlgos {
 	
 	public int getVisiteA() {
 		return this.nbSommetsVisitesA;
+	}
+	
+	public double getDonneeComp() {
+		return this.donneeComp;
 	}
 
 
